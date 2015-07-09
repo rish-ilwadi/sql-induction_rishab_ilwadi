@@ -361,44 +361,44 @@ SET @d=DATEADD(day,2,getdate())
  
 SELECT FORMAT(@d, 'U')
 
---46. SQL avg() function
+--44. SQL avg() function
 
 select * 
 from employee
 where salary > (select avg(salary) from employee)
 
---47 SQL count() function
+--45 SQL count() function
 
 select dept_name ,count(emp_id) AS No_of_employees
 from department
 group by dept_name;
    
---48. SQL max() function
+--46. SQL max() function
 
 select *
 from employee
 where salary < (select max(salary) from employee);
 
---49. SQL min() function
+--47. SQL min() function
 
 select *
 from employee
 where salary> (select min(salary) from employee);
 
 
---50 SQL sum() function
+--48 SQL sum() function
 
 select sum(salary)
 from employee
 
 
---51 SQL Group By
+--49 SQL Group By
 
 select dept_name ,count(emp_id) AS No_of_employees
 from department
 group by dept_name;
 
---52. SQL Having Clause
+--50. SQL Having Clause
 
 create table order
 (
@@ -417,22 +417,22 @@ from order
 Having order_price<2000;
 
  
---53. SQL upper() function
+--51. SQL upper() function
 
 select upper(l_name), fname
 from employee;
 
---54 SQL lower() function
+--52 SQL lower() function
 
 select lower(l_name), fname
 from employee;
 
---55 SQL len() function
+--53 SQL len() function
 
 select len(fname) AS Length_Of_First_Name
 from employee;
 
---56 Use of ROUND() function
+--54 Use of ROUND() function
 
 ALTER table employee
 ALTER COLUMN salary float;
@@ -440,15 +440,222 @@ ALTER COLUMN salary float;
 select ROUND(salary,2) 
 from employee;
 
---57 Use of getdate() function
+--55 Use of getdate() function
 
 ALTER table employee
 add join_date date default getdate();
 
---58 sql convert()
+--56 sql convert()
 
 select salary, Convert(varchar,getdate(),4)
 from employee;
 
+--57 Use of cast()
+
+SELECT CAST(emp_id AS varchar(10)) 
+from employee;
+
+--58CASE EXPRESSION
+
+SELECT *,status=(CASE when salary>50000 AND age<35 THEN 'yes' ELSE 'no' END)
+from employee;
+
+--59 SQL Rank
+
+select Top 5 *,Dense_Rank()
+over(order by salary desc) 
+AS Rank_By_Salary 
+from employee;
+
+--60 Common Table Expression (CTE)
+
+use sql;
+GO
+
+With employee_cte(emp_id,emp_name,designation,salary)
+AS
+(
+Select emp_id AS ID , fname AS Name, designation, salary
+from employee
+)
+
+select count (*) AS No_of_Managers
+from employee_cte
+where designation='Manager';
+
+--61 ROLLUP and CUBE
+
+SELECT designation,salary
+FROM employee
+GROUP BY designation,salary WITH ROLLUP;
+
+SELECT designation,salary
+FROM employee
+GROUP BY designation,salary WITH CUBE;
+
+--62 EXCEPT and INTERSECT
 
 
+Alter table employee
+add experience_in_months int;
+
+update employee
+set experience_in_months=5
+where fname='Shivansh';
+
+--INTERSECT
+select *
+from employee
+where designation='Trainee'
+INTERSECT
+select * 
+from employee where experience_in_months<6;
+
+--EXCEPT
+select * 
+from employee where experience_in_months<6;
+EXCEPT
+select *
+from employee
+where designation NOT LIKE 'Trainee';
+
+--63 Correlated Subqueries
+select Min(salary) AS Third_High
+from employee
+where salary in (select Top 3 salary from employee order by salary desc);
+
+
+--64 Use of Running Aggregate
+
+select *, (Select Sum(salary) from employee b where b.emp_id<a.emp_id) As Running_total
+from employee a
+order by emp_id;
+
+--65 Clustered Index
+
+create clustered index NEW_Clustered_Index
+on dbo.employee(emp_id);
+
+
+--66. Non Clustered Index
+
+create nonclustered index NEW_NONClustered_Index
+on dbo.employee(fname);
+
+--67. Triggers
+
+--create table employee_salary
+create table employee_salary
+(
+emp_id int,
+basic_salary int,
+hra int,
+da int,
+gross_salary int
+);
+
+create Trigger trig_1
+on dbo.employee_salary
+for insert 
+as
+
+declare @empid int
+declare @hra int
+declare @da int
+declare @bas_sal int
+declare @gross_sal int
+
+select @empid=i.emp_id from inserted i
+select @bas_sal=i.basic_salary from inserted i
+select @hra=i.hra from inserted i
+select @da=i.da from inserted i
+set @gross_sal=(@hra+@da+@bas_sal)*12
+
+Update employee_salary
+set gross_salary=@gross_sal
+
+Go
+
+--Insert values in employee_salary table
+insert into employee_salary(emp_id,basic_salary,hra,da)
+values(123,1234,234,345);
+
+--68 SQL Cursor
+
+declare @emp_id int
+declare @bas_sal int
+declare @hra int
+declare @da int
+declare @gross_sal int
+declare @cursor1 cursor
+set @cursor1= cursor
+FOR
+select emp_id, basic_salary,hra,da 
+from employee_salary
+open @cursor1
+Fetch next from @cursor1
+into @emp_id,@bas_sal,@hra,@da
+while @@FETCH_STATUS=0
+Begin
+
+set @gross_sal=(@bas_sal+@hra+@da)*12
+Update employee_salary
+set gross_salary=@gross_sal
+where emp_id=@emp_id
+
+Fetch next from @cursor1
+end
+close @cursor1
+deallocate @cursor1
+
+select * from employee_salary;
+
+
+--69. SQL Functions 
+
+create function is_leap(@year int)
+returns varchar(50)
+As
+Begin
+
+if @year % 100 = 0
+  if @year%400=0
+     return 'Leap'
+  else 
+     return 'Not Leap'
+else
+   if @year%4=0
+     return 'Leap'
+return 'Not Leap'
+end; 
+Go
+select dbo.is_leap(2049);
+Go
+
+--70 SQL PROCEDURE
+
+
+CREATE PROCEDURE PROC1
+(@INPUT INT
+)
+AS
+BEGIN
+select * from employees where employee_id=@INPUT
+END
+
+--71 PROCEDURE WITH EXCEPTION HANDLING
+
+
+CREATE PROCEDURE NEW_ROC
+(
+@INPUT INT
+
+)
+AS
+BEGIN TRY
+     INSERT INTO employees(employee_id,first_name)
+     VALUES(76, 'Abhijit')
+END TRY
+BEGIN CATCH
+   SELECT 'There was an error while  Inserting records in DB '
+END CATCH
