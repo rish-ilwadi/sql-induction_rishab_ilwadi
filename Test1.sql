@@ -1,6 +1,6 @@
 --Important : Create Database Emp before executing the script
 
-USE Emp1;
+USE Emp;
 
 --Create Table Department
 
