@@ -1,5 +1,4 @@
---Create Database for questions 1 & 2
-CREATE DATABASE e_store;
+--Important: Create Two Databases e_Store and EMP_MGMT before executing
 
 --Using Database e_store
 USE e_store;
@@ -63,38 +62,34 @@ VALUES('U1','P1','2010-10-25','Order',150),
 
 --Question 2
 
-SELECT  u.User_Name, p.Product_Name,
+SELECT  u1.User_Name, p1.Product_Name,
 SUM(CASE 
-     WHEN t.Transaction_Type='Payment' 
+     WHEN t1.Transaction_Type='Payment' 
 	 THEN  
-	     t.Transaction_Amount
+	     t1.Transaction_Amount
 	 ELSE 0 
   END) AS Amount_Paid, 
   SUM(CASE 
-     WHEN t.Transaction_Type='Order' 
-	 THEN t.Transaction_Amount
+     WHEN t1.Transaction_Type='Order' 
+	 THEN t1.Transaction_Amount
      ELSE 0 
     END) AS Ordered_Quantity,
-	MAX(t.Transaction_Date) AS Last_Transaction_Date,
+	MAX(t1.Transaction_Date) AS Last_Transaction_Date,
 	SUM(CASE 
-     WHEN t.Transaction_Type='Order' 
-	 THEN t.Transaction_Amount*p.Cost_Per_Item 
+     WHEN t1.Transaction_Type='Order' 
+	 THEN t1.Transaction_Amount*p1.Cost_Per_Item 
 	 ELSE 0 
-	 END)-SUM(CASE WHEN t.Transaction_Type='Payment' THEN t.Transaction_Amount ELSE 0 END)
+	 END)-SUM(CASE WHEN t1.Transaction_Type='Payment' THEN t1.Transaction_Amount ELSE 0 END)
 	 AS BALANCE
-FROM t_product_master AS p
+FROM t_product_master AS p1
 Inner join
-t_transaction AS t
+t_transaction AS t1
 ON p1.Product_ID=t1.Product_ID
 Inner join t_user_master AS u1
 ON u1.User_ID=t1.User_ID
 GROUP BY u1.User_Name,p1.Product_Name;
 
 --Question 2 ends
-
---Create Database for Question 3 & 4
-
-CREATE DATABASE EMP_MGMT;
 
 --Use Database EMP_MGMT
 
@@ -196,7 +191,27 @@ WHERE DATEPART(m,Emp_DOB)=2 AND DATEPART(dd,Emp_DOB)=28 OR DATEPART(m,Emp_DOB) I
 
 --Question 4.1 Ends
 
---Question 4.3
+--Question 4.2 Begins
+
+--Using Pivot to Generate Interactive Date Sheet
+SELECT * 
+FROM(SELECT DISTINCT DATENAME(YYYY,Atten_start_datetime) AS Year,DATENAME(MM,Atten_start_datetime) AS Month,
+(CASE WHEN Emp_m_name IS NULL 
+      THEN Emp_f_name+' '+Emp_l_name
+      ELSE Emp_f_name+' '+Emp_m_name+' '+Emp_l_name 
+	  END) AS Name,Atten_end_hrs AS HOURS_WORKED,DATENAME(DD,Atten_start_datetime) AS [date]
+FROM t_atten_det left join t_emp ON t_atten_det.Emp_id=t_emp.Emp_id) AS g
+Pivot
+(
+SUM(HOURS_WORKED)
+FOR [date] in ([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],[28],[29],[30],[31])
+) AS [PIVOT]
+
+--Question 4.2 Ends
+
+--Question 4.3 Begins
+
+--Using Correlated Subqueries to get the desired output
 
 SELECT  t_emp.Emp_f_name,
   t_atten_det.Emp_id,
