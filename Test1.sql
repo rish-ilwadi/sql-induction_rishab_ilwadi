@@ -4,7 +4,10 @@ USE Emp;
 
 --Create Table Department
 
-CREATE TABLE Department(DeptID INT PRIMARY KEY,DeptName VARCHAR(50),DeptHeadID INT);
+CREATE TABLE Department
+(DeptID INT PRIMARY KEY,
+DeptName VARCHAR(50),
+DeptHeadID INT);
 
 --Insert Values into Department Table
 
@@ -16,8 +19,14 @@ VALUES(1,'HR',1),
 
 --Create Table Employee
 
-CREATE TABLE Employee(Id INT PRIMARY KEY, Name VARCHAR(50),Gender VARCHAR(50), 
-Basic INT,HR INT,DA INT,TAX INT,DeptID INT,
+CREATE TABLE Employee(Id INT PRIMARY KEY, 
+Name VARCHAR(50),
+Gender VARCHAR(50), 
+Basic INT,
+HR INT,
+DA INT,
+TAX INT,
+DeptID INT,
 FOREIGN KEY (DeptID) REFERENCES Department(DeptID));
 
 --Insert Values into Employee Table
