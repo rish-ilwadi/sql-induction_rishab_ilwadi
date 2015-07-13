@@ -66,7 +66,7 @@ VALUES(11404,101,0,NULL,'01-25-2012 03:00:00'),
 
 --Question 1
 
-SELECT DISTINCT Train_Name, Station_Name,d.c, d.c/g.e AS Average_Speed 
+SELECT DISTINCT Train_Name, Station_Name,d.c AS Distance, d.c/g.e AS Average_Speed 
 FROM Train_Details
 INNER JOIN
 Journey_Details
@@ -74,7 +74,7 @@ ON Train_Details.Train_ID=Journey_Details.Train_ID
 INNER JOIN
 Station_Details
 ON Journey_Details.Station_ID=Station_Details.Station_ID
-INNER JOIN (SELECT CAST(SUM(Distance) AS FLOAT) AS c,h.Train_ID 
+INNER JOIN(SELECT CAST(SUM(Distance) AS FLOAT) AS c,h.Train_ID 
 FROM Journey_Details h
 GROUP BY h.Train_ID) AS d
 ON Journey_Details.Train_ID=d.Train_ID
@@ -87,6 +87,17 @@ FROM Journey_Details j
 GROUP BY j.Train_ID) AS f
 ON i.Train_ID=f.Train_ID) AS g
 ON Journey_Details.Train_ID=g.Train_ID;
+
+Train_Name	Station_Name	Distance	Average_Speed
+Passenger	Aligarh	        250	        37.9746835443038
+Passenger	Kanpur	        250	        37.9746835443038
+Passenger	Lucknow	        250	        37.9746835443038
+Rajdhani	Aligarh	        475         190
+Rajdhani	Delhi	        475	        190
+Rajdhani	Kanpur	        475	        190
+Rajdhani	Lucknow	        475	        190
+Shatabdi	Delhi	        750	        115.384615384615
+Shatabdi	Lucknow	        750	        115.384615384615
 
 --Question 1 Ends
 
@@ -101,6 +112,10 @@ FROM Journey_Details
 GROUP BY Train_ID) AS a
 ON Train_Details.Train_ID=a.Train_ID
 ORDER BY a.b DESC;
+
+--Output
+Train_Name
+Shatabdi
 
 --Question 2.b
 
@@ -128,6 +143,12 @@ ON i.Train_ID=f.Train_ID) AS g
 ON Journey_Details.Train_ID=g.Train_ID) AS k
 ORDER BY k.Average_Speed DESC;
 
+--Output
+
+Train_Name
+Rajdhani
+
+
 --Question 2.c
 
 SELECT Train_Name
@@ -139,7 +160,11 @@ GROUP BY Train_ID) AS b
 ON Train_Details.Train_ID=b.Train_ID
 WHERE b.a>=3;
 
+--Output
 
+Train_Name
+Rajdhani
+Passenger
 --Question 2.d
 
 SELECT DISTINCT Train_Name
@@ -151,6 +176,10 @@ GROUP BY Train_ID) AND  Train_ID NOT IN (SELECT Train_ID
 FROM Journey_Details
 WHERE Station_ID IN (104)
 GROUP BY Train_ID);
+
+--Output
+Train_Name
+Shatabdi
 
 --Question 2 Ends
 
@@ -172,12 +201,19 @@ ON Journey_Details.Station_ID=Station_Details.Station_ID
 WHERE DISTANCE>0 AND Departure_GMT IS NULL) AS d
 ON Journey_Details.Train_ID=d.Train_ID;
 
+--Output
+
+Train_ID	Train_Name	Boarding	Destination
+11404	    Shatabdi	Delhi	    Lucknow
+22505		Rajdhani	Delhi	Lucknow
+33606		Passenger	Aligarh	Lucknow
+
 --Question 4 Ends
 
 --Section B
 
 --Create Tables
-use Optimus;
+USE Optimus;
 CREATE TABLE t_Dept 
 (DeptId INT Primary key,
 DeptName VARCHAR(50)
@@ -239,6 +275,13 @@ t_Engineer e INNER JOIN t_Attendance a
 ON e.Id=a.Id
 GROUP BY e.Eng_Name;
 
+--Output
+
+Eng_Name	TOTAL_HOURS
+Aditya	     8
+Rishab	     13
+Siddharth	 1
+
 --Question 2
 
 SELECT p.Proj_Name,sum(a.Hrs) as TOTAL_HRS_PROJECT
@@ -246,5 +289,12 @@ from
 t_Proj p INNER JOIN t_Attendance a
 ON p.Proj_Id=a.Proj_Id
 GROUP BY p.Proj_Name;
+
+--Output
+
+Proj_Name	TOTAL_HRS_PROJECT
+Android		13
+IOS			8
+Samsung		1
 
 --Section B Ends
