@@ -1,0 +1,23 @@
+<br />
+<font size='1'><table class='xdebug-error xe-fatal-error' dir='ltr' border='1' cellspacing='0' cellpadding='1'>
+<tr><th align='left' bgcolor='#f57900' colspan="5"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> Fatal error: Maximum execution time of 360 seconds exceeded in C:\wamp\apps\phpmyadmin4.1.14\libraries\tcpdf\tcpdf.php on line <i>4071</i></th></tr>
+<tr><th align='left' bgcolor='#e9b96e' colspan='5'>Call Stack</th></tr>
+<tr><th align='center' bgcolor='#eeeeec'>#</th><th align='left' bgcolor='#eeeeec'>Time</th><th align='left' bgcolor='#eeeeec'>Memory</th><th align='left' bgcolor='#eeeeec'>Function</th><th align='left' bgcolor='#eeeeec'>Location</th></tr>
+<tr><td bgcolor='#eeeeec' align='center'>1</td><td bgcolor='#eeeeec' align='center'>0.0156</td><td bgcolor='#eeeeec' align='right'>463792</td><td bgcolor='#eeeeec'>{main}(  )</td><td title='C:\wamp\apps\phpmyadmin4.1.14\export.php' bgcolor='#eeeeec'>..\export.php<b>:</b>0</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>2</td><td bgcolor='#eeeeec' align='center'>66.2281</td><td bgcolor='#eeeeec' align='right'>27251992</td><td bgcolor='#eeeeec'>ExportPdf->exportData(  )</td><td title='C:\wamp\apps\phpmyadmin4.1.14\export.php' bgcolor='#eeeeec'>..\export.php<b>:</b>732</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>3</td><td bgcolor='#eeeeec' align='center'>66.2281</td><td bgcolor='#eeeeec' align='right'>27252392</td><td bgcolor='#eeeeec'>PMA_ExportPdf->mysqlReport(  )</td><td title='C:\wamp\apps\phpmyadmin4.1.14\libraries\plugins\export\ExportPdf.class.php' bgcolor='#eeeeec'>..\ExportPdf.class.php<b>:</b>223</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>4</td><td bgcolor='#eeeeec' align='center'>86.5580</td><td bgcolor='#eeeeec' align='right'>27234688</td><td bgcolor='#eeeeec'>PMA_ExportPdf->morepagestable(  )</td><td title='C:\wamp\apps\phpmyadmin4.1.14\libraries\plugins\export\PMA_ExportPdf.class.php' bgcolor='#eeeeec'>..\PMA_ExportPdf.class.php<b>:</b>420</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>5</td><td bgcolor='#eeeeec' align='center'>359.2256</td><td bgcolor='#eeeeec' align='right'>35062112</td><td bgcolor='#eeeeec'>TCPDF->MultiCell(  )</td><td title='C:\wamp\apps\phpmyadmin4.1.14\libraries\plugins\export\PMA_ExportPdf.class.php' bgcolor='#eeeeec'>..\PMA_ExportPdf.class.php<b>:</b>203</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>6</td><td bgcolor='#eeeeec' align='center'>359.2256</td><td bgcolor='#eeeeec' align='right'>35064576</td><td bgcolor='#eeeeec'>TCPDF->Write(  )</td><td title='C:\wamp\apps\phpmyadmin4.1.14\libraries\tcpdf\tcpdf.php' bgcolor='#eeeeec'>..\tcpdf.php<b>:</b>5850</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>7</td><td bgcolor='#eeeeec' align='center'>359.9900</td><td bgcolor='#eeeeec' align='right'>35687192</td><td bgcolor='#eeeeec'>TCPDF->GetStringWidth(  )</td><td title='C:\wamp\apps\phpmyadmin4.1.14\libraries\tcpdf\tcpdf.php' bgcolor='#eeeeec'>..\tcpdf.php<b>:</b>6466</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>8</td><td bgcolor='#eeeeec' align='center'>359.9900</td><td bgcolor='#eeeeec' align='right'>35715024</td><td bgcolor='#eeeeec'>TCPDF->GetArrStringWidth(  )</td><td title='C:\wamp\apps\phpmyadmin4.1.14\libraries\tcpdf\tcpdf.php' bgcolor='#eeeeec'>..\tcpdf.php<b>:</b>3995</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>9</td><td bgcolor='#eeeeec' align='center'>360.0056</td><td bgcolor='#eeeeec' align='right'>35739976</td><td bgcolor='#eeeeec'>TCPDF->GetCharWidth(  )</td><td title='C:\wamp\apps\phpmyadmin4.1.14\libraries\tcpdf\tcpdf.php' bgcolor='#eeeeec'>..\tcpdf.php<b>:</b>4026</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>10</td><td bgcolor='#eeeeec' align='center'>360.0056</td><td bgcolor='#eeeeec' align='right'>35739976</td><td bgcolor='#eeeeec'>TCPDF->getRawCharWidth(  )</td><td title='C:\wamp\apps\phpmyadmin4.1.14\libraries\tcpdf\tcpdf.php' bgcolor='#eeeeec'>..\tcpdf.php<b>:</b>4051</td></tr>
+</table></font>
+Array
+(
+    [type] => 1
+    [message] => Maximum execution time of 360 seconds exceeded
+    [file] => C:\wamp\apps\phpmyadmin4.1.14\libraries\tcpdf\tcpdf.php
+    [line] => 4071
+)
